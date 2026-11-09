@@ -1,0 +1,7 @@
+# Grown week by week, only when used:
+#  D1: requests (downloader), pytest (tests)
+#  D3-D6: pdfplumber (MIT) for parsing
+#  D7-D8: FlagEmbedding/sentence-transformers (BGE-M3), bm24s, faiss-cpu or qdrant
+#  D12+: google-genai SDK, fastapi, uvicorn, pydantic, gradio
+requests
+pytest
