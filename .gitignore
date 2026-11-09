@@ -1,0 +1,21 @@
+# Virtual environment — rebuildable with one command, never commit
+.venv/
+
+# Downloaded PDFs — spec rule: PDFs never committed to git
+data/*.pdf
+
+# Python build/cache artifacts
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Secrets — API keys live here, NEVER in git
+.env
+
+# Embedding index artifacts — rebuildable
+.index/
+*.faiss
+
+# OS noise
+.DS_Store
+Thumbs.db
