@@ -48,3 +48,17 @@ display time. Proof: Get-Content -Encoding UTF8 and Python print both show
 correct characters; every fake run was exactly 3 chars = 3 UTF-8 bytes of one
 correct character. Lesson: verify at the layer where the defect lives.
 \_fix_mojibake stays as insurance (no-op on clean text).
+
+## D4 — Golden set conventions (2026-11-12)
+
+One JSON object per line; q_ids ordered G###. Four types: lookup, multihop,
+numeric, unanswerable (target mix 14/10/8/8 + 5 friend-written). The schema
+holds ONE primary gold_doc even for multihops; the second source lives in
+notes and the eval scorer must check both. Unanswerables have null gold
+fields, expect refusal, and must record which blocks were checked.
+
+## D4 — Verified silence (2026-11-12)
+
+An "unanswerable" claim is itself a factual claim. G005's silence was verified
+with Select-String across the policy and all parsed blocks before entry.
+Habit: no unanswerable enters the set without a recorded search.
