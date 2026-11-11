@@ -66,3 +66,16 @@ def test_unanswerables_document_their_silence():
         if r["type"] == "unanswerable":
             assert len(r.get("notes", "")) > 40, \
                 f"{r['q_id']}: unanswerable must record WHY the corpus is silent"
+
+
+def test_every_type_is_represented():
+    types = {r["type"] for r in _rows()}
+    assert types == ALLOWED_TYPES, f"missing types: {ALLOWED_TYPES - types}"
+
+
+def test_gold_answers_are_not_placeholders():
+    bad = [r["q_id"] for r in _rows()
+           if r["type"] != "unanswerable"
+           and (r["gold_answer"].strip() == r["question"].strip()
+                or any(t in r["gold_answer"].upper() for t in ("TODO", "TBD", "FIXME")))]
+    assert not bad, f"placeholder gold answer in {bad}"
