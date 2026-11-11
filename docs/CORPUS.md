@@ -38,3 +38,11 @@ RBI reissues documents (the IRACP Master Circular every April). Before
 relying on any item: re-read MANIFEST `status` + `effective_date`, re-run
 `python scripts/download_data.py` (idempotent), and run
 `python scripts/corpus_inventory.py` for a one-pass summary.
+
+## Golden set
+
+data/golden/golden_set_v1.jsonl holds the evaluation questions (target: 40 +
+5 friend-written). Rules: gold answers only from parsed blocks you have read;
+answerable entries carry doc/page/section provenance; unanswerables have null
+gold and a recorded silence search. Guarded by tests/test_golden_set.py.
+Track coverage: python scripts/golden_inventory.py
