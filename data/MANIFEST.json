@@ -2,7 +2,7 @@
   "project": "RegRAG",
   "note": "Educational project - not legal or financial advice. Documents are public RBI publications. PDFs are never committed to git.",
   "manifest_version": 1,
-  "checked_at": "2026-11-09T18:16:54+00:00",
+  "checked_at": "2026-11-11T17:58:04+00:00",
   "docs": [
     {
       "doc_id": "rbi_digital_lending_2025",
@@ -13,8 +13,8 @@
       "file": "rbi_digital_lending_2025.pdf",
       "sha256": "2dd838cf9bcb58f27bec0c0f5485cf1c764ad238454dea8c9041516375d2321b",
       "size_bytes": 1120752,
-      "checked_at": "2026-11-09T18:16:44+00:00",
-      "download_state": "new/updated"
+      "checked_at": "2026-11-11T17:58:04+00:00",
+      "download_state": "unchanged"
     },
     {
       "doc_id": "rbi_kyc_2016",
@@ -25,8 +25,8 @@
       "file": "rbi_kyc_2016.pdf",
       "sha256": "7ee5c336f273be6970e41f11c57aa9b5eb8ed31c433aeeca0831110e775fdab9",
       "size_bytes": 2049883,
-      "checked_at": "2026-11-09T18:16:46+00:00",
-      "download_state": "new/updated"
+      "checked_at": "2026-11-11T17:58:04+00:00",
+      "download_state": "unchanged"
     },
     {
       "doc_id": "rbi_iracp_2025",
@@ -37,20 +37,20 @@
       "file": "rbi_iracp_2025.pdf",
       "sha256": "125c58c3d9aebbcf63e1455ed20249a607f273ada01d0576ac081a0247694e8a",
       "size_bytes": 2630619,
-      "checked_at": "2026-11-09T18:16:53+00:00",
-      "download_state": "new/updated"
+      "checked_at": "2026-11-11T17:58:04+00:00",
+      "download_state": "unchanged"
     },
     {
       "doc_id": "rbi_fair_practices_code",
       "title": "Master Circular - Fair Practices Code",
       "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/16FP250915F.pdf",
-      "effective_date": "2015-09-25",
-      "status": "current as consolidated text; the 2024-04-29 charging-of-interest circular adds rules on top - noted",
+      "effective_date": "2015-07-01",
+      "status": "current as consolidated text; issued 2015-07-01, updated as on 2015-06-30; the 2024-04-29 charging-of-interest circular adds rules on top",
       "file": "rbi_fair_practices_code.pdf",
       "sha256": "2ded754882c2edff5e3de32702dcb6ee801f959703ff28c13f241dc73c29b1a9",
       "size_bytes": 231395,
-      "checked_at": "2026-11-09T18:16:54+00:00",
-      "download_state": "new/updated"
+      "checked_at": "2026-11-11T17:58:04+00:00",
+      "download_state": "unchanged"
     }
   ]
 }
