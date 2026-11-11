@@ -23,3 +23,11 @@ results, evaluation and ablation tables lands at the end of the build window.
 - Chapter headings that merge with body text record as 'Chapter N' only.
 - TOC content sharing a flushed block with a cover page is dropped whole.
 - Some footnote text riding at the end of page-final blocks is retained.
+
+## Golden set
+
+data/golden/golden_set_v1.jsonl holds the evaluation questions (target: 40 +
+5 friend-written). Rules: gold answers only from parsed blocks you have read;
+answerable entries carry doc/page/section provenance; unanswerables have null
+gold and a recorded silence search. Guarded by tests/test_golden_set.py.
+Track coverage: python scripts/golden_inventory.py
