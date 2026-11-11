@@ -53,8 +53,8 @@ DOCS = [
         "doc_id": "rbi_fair_practices_code",
         "title": "Master Circular - Fair Practices Code",
         "url": "https://www.rbi.org.in/commonman/Upload/English/Notification/PDFs/16FP250915F.pdf",
-        "effective_date": "2015-09-25",
-        "status": "current as consolidated text; the 2024-04-29 charging-of-interest circular adds rules on top - noted",
+        "effective_date": "2015-07-01",
+        "status": "current as consolidated text; issued 2015-07-01, updated as on 2015-06-30; the 2024-04-29 charging-of-interest circular adds rules on top",
     },
 ]
 
