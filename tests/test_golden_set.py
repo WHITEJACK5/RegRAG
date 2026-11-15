@@ -12,8 +12,8 @@ ROOT = Path(__file__).resolve().parent.parent
 GOLDEN = ROOT / "data" / "golden" / "golden_set_v1.jsonl"
 MANIFEST = ROOT / "data" / "MANIFEST.json"
 
-REQUIRED_KEYS = {"q_id", "type", "question", "gold_answer",
-                 "gold_doc", "gold_page", "gold_section", "notes"}
+REQUIRED_KEYS = {"q_id", "type", "question", "gold_answer", "gold_doc",
+                 "gold_page", "gold_section", "key_facts", "notes"}
 ALLOWED_TYPES = {"lookup", "multihop", "numeric", "unanswerable"}
 
 
@@ -79,3 +79,12 @@ def test_gold_answers_are_not_placeholders():
            and (r["gold_answer"].strip() == r["question"].strip()
                 or any(t in r["gold_answer"].upper() for t in ("TODO", "TBD", "FIXME")))]
     assert not bad, f"placeholder gold answer in {bad}"
+
+
+def test_key_facts_shape():
+    for r in _rows():
+        if r["type"] == "unanswerable":
+            assert r["key_facts"] == [], f"{r['q_id']}: unanswerable key_facts must be empty"
+        else:
+            assert 2 <= len(r["key_facts"]) <= 4, \
+                f"{r['q_id']}: key_facts must be 2-4 short strings"
