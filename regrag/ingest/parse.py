@@ -63,6 +63,14 @@ def _nonlatin_ratio(text: str) -> float:
     non_latin = [c for c in letters if not ("a" <= c.lower() <= "z")]
     return len(non_latin) / len(letters)
 
+def _looks_like_prose_table(text: str) -> bool:
+    """Captured 'tables' whose cells are long sentences are boxed prose, not tables."""
+    cells = [c for c in re.split(r"[|\n]", text) if len(c.strip()) > 3]
+    if len(cells) < 4:
+        return False
+    long_cells = sum(1 for c in cells if len(c) > 80)
+    return long_cells / len(cells) >= 0.4
+
 
 def _keep(line: str) -> str | None:
     """Return the cleaned line, or None if it must be dropped."""
@@ -93,7 +101,12 @@ def _is_toc(text: str) -> bool:
 
 
 def _make_block(doc_id, page, sec_top, sec, buf, eff, idx, is_table=False):
-    text = " ".join(" ".join(buf).split()) if not is_table else buf
+    if is_table:
+        text = buf
+    elif isinstance(buf, list):
+        text = " ".join(" ".join(buf).split())
+    else:
+        text = " ".join(buf.split())
     if len(text) < NOISE_FLOOR:
         return None
     return {
@@ -184,11 +197,11 @@ def parse_document(pdf_path: Path, entry: dict) -> tuple[list[dict], dict]:
                 rows = ["|".join((c or "").strip() for c in row) for row in t]
                 text = "\n".join(r for r in rows if r.strip())
                 if len(text) >= NOISE_FLOOR and _nonlatin_ratio(text) <= 0.6:
-                    tables.append(text)
+                    tables.append((text, not _looks_like_prose_table(text)))
 
             # dedupe: drop a text block that is mostly a copy of a table on this page
             dropped = set()
-            for ti, ttext in enumerate(tables):
+            for ti, (ttext, _real) in enumerate(tables):
                 tnorm = _norm(ttext)
                 for bi, b in enumerate(text_blocks):
                     if bi in dropped or len(b["text"]) > 2 * len(ttext):
@@ -200,9 +213,9 @@ def parse_document(pdf_path: Path, entry: dict) -> tuple[list[dict], dict]:
             for bi, b in enumerate(text_blocks):
                 if bi not in dropped:
                     blocks.append(b)
-            for ttext in tables:
+            for ttext, real in tables:
                 idx += 1
-                blocks.append(_make_block(doc_id, page_no, section_top, section, ttext, eff, idx, is_table=True))
+                blocks.append(_make_block(doc_id, page_no, section_top, section, ttext, eff, idx, is_table=real))
 
     for i, b in enumerate(blocks, start=1):
         b["block_id"] = f"{b['doc_id']}_p{b['page']:03d}_b{i:03d}"
