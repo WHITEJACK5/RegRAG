@@ -23,6 +23,10 @@ results, evaluation and ablation tables lands at the end of the build window.
 - Chapter headings that merge with body text record as 'Chapter N' only.
 - TOC content sharing a flushed block with a cover page is dropped whole.
 - Some footnote text riding at the end of page-final blocks is retained.
+- Page-spanning tables keep only the fragment on their page; the header row
+  stays behind on the previous page.
+- Boxed paragraphs are demoted to text by a cell-length heuristic; a genuine
+  small table with long cells could be misdemoted.
 
 ## Golden set
 
