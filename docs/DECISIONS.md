@@ -62,3 +62,21 @@ fields, expect refusal, and must record which blocks were checked.
 An "unanswerable" claim is itself a factual claim. G005's silence was verified
 with Select-String across the policy and all parsed blocks before entry.
 Habit: no unanswerable enters the set without a recorded search.
+
+## D5 — Prose-table demotion (2026-11-13)
+
+pdfplumber captures RBI's boxed paragraphs as tables (drawn borders trigger
+extract_tables). About half of IRACP's "101 tables" were boxed prose. Rule:
+a captured table whose cells are mostly >80-char sentences is prose and is
+relabeled is_table=false. Evidence: 10 hand-audited blocks; heuristic agreed
+with all 10. Also fixed: demoted strings hit \_make_block's list-join branch
+(" ".join on a string shreds characters) - lay dormant for 2 days until the
+first string ever reached that branch. Lesson: new data paths need a test.
+
+## D5 — Golden set adopts guide section 11 fields (2026-11-13)
+
+key_facts (2-4 short strings the answer must contain) added to all entries;
+the judge will score answer correctness against them. gold_chunks will be
+filled when the chunker (D6) creates chunk ids. Note: the "9 commits at day
+end" rule is our own working agreement from D1 - neither ramayana document
+prescribes commit cadence.
