@@ -1,3 +1,5 @@
+effective_date: 2026-11-10
+
 # SahiCredit Finance Pvt Ltd — Retail Credit & Customer Protection Policy
 
 > **SYNTHETIC DOCUMENT — evaluation-corpus only.**
@@ -8,14 +10,14 @@
 > own choices. Rules marked `VERIFY-D3` must be confirmed against the parsed RBI
 > PDF before any golden-set question cites them.
 
-| Field | Value |
-| --- | --- |
-| doc_id | `synthetic_internal_policy` |
-| Version | 1.0 |
-| Effective date | 2026-11-10 |
-| Policy owner | Head — Credit Policy (fictional) |
-| Review cycle | Annual, or immediately upon an RBI reissue (see MANIFEST `status`) |
-| Contact | compliance@SahiCredit.example (reserved `.example` domain — fictional) |
+| Field          | Value                                                                  |
+| -------------- | ---------------------------------------------------------------------- |
+| doc_id         | `synthetic_policy_v1`                                                  |
+| Version        | 1.0                                                                    |
+| Effective date | 2026-11-10                                                             |
+| Policy owner   | Head — Credit Policy (fictional)                                       |
+| Review cycle   | Annual, or immediately upon an RBI reissue (see MANIFEST `status`)     |
+| Contact        | compliance@SahiCredit.example (reserved `.example` domain — fictional) |
 
 ## 1. Purpose and scope
 
@@ -31,11 +33,11 @@ internal rules are deliberately tighter than regulatory baselines.
 
 ## 2. Products covered
 
-| Code | Product | Purpose | Max ticket size | Tenor | Security |
-| --- | --- | --- | --- | --- | --- |
-| SC-PL | Personal loan | Consumption, medical, education support | ₹5,00,000 | 12–60 months | Unsecured |
-| SC-VL | Vehicle loan | Two- and four-wheeler purchase | ₹10,00,000 | 12–84 months | Hypothecation of vehicle |
-| SC-CD | Consumer-durables loan | Appliance/phone/ laptop purchase | ₹2,00,000 | 6–24 months | Hypothecation of goods |
+| Code  | Product                | Purpose                                 | Max ticket size | Tenor        | Security                 |
+| ----- | ---------------------- | --------------------------------------- | --------------- | ------------ | ------------------------ |
+| SC-PL | Personal loan          | Consumption, medical, education support | ₹5,00,000       | 12–60 months | Unsecured                |
+| SC-VL | Vehicle loan           | Two- and four-wheeler purchase          | ₹10,00,000      | 12–84 months | Hypothecation of vehicle |
+| SC-CD | Consumer-durables loan | Appliance/phone/ laptop purchase        | ₹2,00,000       | 6–24 months  | Hypothecation of goods   |
 
 The aggregate borrowing cap across all three products is ₹10,00,000
 outstanding per customer. `[internal]`
@@ -48,7 +50,7 @@ outstanding per customer. `[internal]`
 3. **Loan-to-income (LTI):** the sum of EMIs of all active loans of the
    applicant (including loans from other lenders) must not exceed **40%** of
    verified net monthly income. `[internal — deliberately tighter than common
-   market practice]`
+market practice]`
 4. Credit-bureau score floors: **700** for SC-PL and SC-CD; **650** for SC-VL.
    `[internal]`
 5. Maximum **two** active loans with the Company at any time. `[internal]`
@@ -89,12 +91,12 @@ outstanding per customer. `[internal]`
 5. **Named fee schedule:** every fee the Company may charge is on this list;
    anything not on it is not chargeable. `[trace: rbi_fair_practices_code]`
 
-   | Fee | Amount | When charged |
-   | --- | --- | --- |
-   | Processing fee | 1.0% of sanctioned amount (min ₹1,000, max ₹5,000) | Once, at sanction; included in APR disclosure |
-   | Bounce / ECS return fee | ₹500 per event | Each failed repayment instrument |
-   | Late payment penalty | No separate penalty; stated overdue interest applies per the sanction letter | After due date |
-   | Statement, foreclosure-request, or document-retrieval fee | Zero | Always |
+   | Fee                                                       | Amount                                                                       | When charged                                  |
+   | --------------------------------------------------------- | ---------------------------------------------------------------------------- | --------------------------------------------- |
+   | Processing fee                                            | 1.0% of sanctioned amount (min ₹1,000, max ₹5,000)                           | Once, at sanction; included in APR disclosure |
+   | Bounce / ECS return fee                                   | ₹500 per event                                                               | Each failed repayment instrument              |
+   | Late payment penalty                                      | No separate penalty; stated overdue interest applies per the sanction letter | After due date                                |
+   | Statement, foreclosure-request, or document-retrieval fee | Zero                                                                         | Always                                        |
 
    As a rule, no fee is charged for complaint filing or for setting up digital
    repayment. Charging a customer to file a complaint is prohibited.
@@ -113,7 +115,7 @@ outstanding per customer. `[internal]`
 4. **Cooling-off period:** five calendar days from disbursal on loans of seven
    days' tenor or longer, during which the borrower may exit by paying
    principal and proportionate APR without penalty. `[internal — must never be
-   shorter than the RBI-mandated minimum; VERIFY-D3 the exact para]`
+shorter than the RBI-mandated minimum; VERIFY-D3 the exact para]`
 5. Lending-service partners may join the origination journey but may not
    influence credit decisions; underwriting authority stays with the Company.
    `[trace: rbi_digital_lending_2025]`
@@ -147,7 +149,7 @@ outstanding per customer. `[internal]`
 
 1. Borrower contact is permitted only between 08:00 and 19:00 local time,
    except with the borrower's explicit consent. `[trace: rbi_fair_practices_code;
-   VERIFY-D3 exact window]`
+VERIFY-D3 exact window]`
 2. Recovery staff identify themselves, their employer, and the purpose of
    every contact, and may contact family or employer only with the borrower's
    documented consent. `[trace: rbi_fair_practices_code]`
@@ -158,7 +160,7 @@ outstanding per customer. `[internal]`
    found in a repossessed vehicle are inventoried and returned; repossession
    visits follow the same 08:00–19:00 conduct window as collections.
    `[internal — the 21-day notice is deliberately longer than the regulatory
-   minimum; VERIFY-D3 the governing instrument and its minimum]`
+minimum; VERIFY-D3 the governing instrument and its minimum]`
 
 ## 8. Asset classification and early warning
 
@@ -178,18 +180,18 @@ outstanding per customer. `[internal]`
    `[trace: rbi_kyc_2016]`
 2. Repayment history is reported accurately and disputes are corrected within
    the timelines that apply to credit institutions. `[VERIFY-D3 which instrument
-   governs credit-information reporting before this line is cited]`
+governs credit-information reporting before this line is cited]`
 
 ## 10. Deliberately-stricter register
 
-| # | Rule | Internal | Regulatory baseline | RBI doc | Relation |
-| --- | --- | --- | --- | --- | --- |
-| 1 | Grievance resolution TAT | 7 working days | Framework-mandated timeline (VERIFY-D3 exact TAT) | rbi_fair_practices_code | stricter |
-| 2 | LTI cap | 40% of verified income | No universal RBI LTI number for unsecured retail (VERIFY-D3 situational limits) | — | internal-only |
-| 3 | NPA watch-list | flag at 60 DPD | NPA at 90 DPD | rbi_iracp_2025 | stricter |
-| 4 | Foreclosure charges | always zero | Charges permitted in defined conditions (VERIFY-D3) | rbi_fair_practices_code | stricter |
-| 5 | Digital cooling-off | 5 calendar days | RBI minimum (VERIFY-D3 exact days) | rbi_digital_lending_2025 | stricter |
-| 6 | Ticket caps | ₹10L aggregate | No general cap for retail NBFC lending (VERIFY-D3 any category limits) | — | internal-only |
+| #   | Rule                     | Internal               | Regulatory baseline                                                             | RBI doc                  | Relation      |
+| --- | ------------------------ | ---------------------- | ------------------------------------------------------------------------------- | ------------------------ | ------------- |
+| 1   | Grievance resolution TAT | 7 working days         | Framework-mandated timeline (VERIFY-D3 exact TAT)                               | rbi_fair_practices_code  | stricter      |
+| 2   | LTI cap                  | 40% of verified income | No universal RBI LTI number for unsecured retail (VERIFY-D3 situational limits) | —                        | internal-only |
+| 3   | NPA watch-list           | flag at 60 DPD         | NPA at 90 DPD                                                                   | rbi_iracp_2025           | stricter      |
+| 4   | Foreclosure charges      | always zero            | Charges permitted in defined conditions (VERIFY-D3)                             | rbi_fair_practices_code  | stricter      |
+| 5   | Digital cooling-off      | 5 calendar days        | RBI minimum (VERIFY-D3 exact days)                                              | rbi_digital_lending_2025 | stricter      |
+| 6   | Ticket caps              | ₹10L aggregate         | No general cap for retail NBFC lending (VERIFY-D3 any category limits)          | —                        | internal-only |
 
 **Version note:** this is v1.0 for the RegRAG corpus. The numerical values
 in Sections 2–8 were reviewed and accepted by the policy owner on
