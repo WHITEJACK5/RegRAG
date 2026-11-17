@@ -13,7 +13,7 @@ GOLDEN = ROOT / "data" / "golden" / "golden_set_v1.jsonl"
 MANIFEST = ROOT / "data" / "MANIFEST.json"
 
 REQUIRED_KEYS = {"q_id", "type", "question", "gold_answer", "gold_doc",
-                 "gold_page", "gold_section", "key_facts", "notes"}
+                 "gold_page", "gold_section", "key_facts", "notes","gold_chunks"}
 ALLOWED_TYPES = {"lookup", "multihop", "numeric", "unanswerable"}
 
 
@@ -88,3 +88,37 @@ def test_key_facts_shape():
         else:
             assert 2 <= len(r["key_facts"]) <= 4, \
                 f"{r['q_id']}: key_facts must be 2-4 short strings"
+
+
+
+def _chunk_ids():
+    ids = set()
+    for f in sorted((ROOT / "data" / "chunks").glob("*_chunks.jsonl")):
+        for line in f.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                ids.add(json.loads(line)["chunk_id"])
+    return ids
+
+
+def test_answerables_have_gold_chunks():
+    for r in _rows():
+        if r["type"] == "unanswerable":
+            continue
+        gc = r.get("gold_chunks")
+        assert isinstance(gc, list) and gc and all(isinstance(c, str) for c in gc), \
+            f"{r['q_id']}: answerable needs non-empty gold_chunks"
+
+
+def test_gold_chunks_exist_in_corpus():
+    ids = _chunk_ids()
+    bad = [(r["q_id"], c) for r in _rows() for c in r.get("gold_chunks", [])
+           if c not in ids]
+    assert not bad, f"gold_chunks referencing unknown chunks: {bad}"
+
+
+def test_unanswerables_have_empty_gold_chunks():
+    for r in _rows():
+        if r["type"] == "unanswerable":
+            assert r.get("gold_chunks") == [], \
+                f"{r['q_id']}: unanswerable gold_chunks must be empty"
+                
