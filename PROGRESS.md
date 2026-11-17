@@ -9,7 +9,7 @@ with sessions; the window end (Sun 6 Dec) does not.
 | D2 · Tue 10 Nov | synthetic internal policy drafted + corpus-contract tests | ✅ DONE |
 | D3–D4 · Wed–Thu 11–12 Nov | parser with page/section/effective-date metadata; 20-chunk hand-check per document ,parser v2, 405 blocks, 15 tests |✅DONE✅DONE|
 | D5 · Fri 13 Nov | table extraction to markdown with page provenance (time-box ~6 h) |✅DONE  |
-| D6 · Mon 16 Nov | chunker + automated chunk checks (no <100-token chunks; no split numbered clause) | ☐ |
+| D6 · Mon 16 Nov | chunker + automated chunk checks (no <100-token chunks; no split numbered clause) | ✅ DONE (236 chunks, 43 tests) |
 | D7 · Tue 17 Nov | dense index (BGE-M3); measure embedding time | ☐ |
 | D8 · Wed 18 Nov | BM25 over the same chunk ids; RRF fusion | ☐ |
 | D9 · Thu 19 Nov | `evalkit`: Recall@k, MRR, nDCG@k, bootstrap CI, with tests | ☐ |
