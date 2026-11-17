@@ -80,3 +80,5 @@ the judge will score answer correctness against them. gold_chunks will be
 filled when the chunker (D6) creates chunk ids. Note: the "9 commits at day
 end" rule is our own working agreement from D1 - neither ramayana document
 prescribes commit cadence.
+
+"Doc-id convention: the 5th corpus member is synthetic_policy_v1 everywhere (tests, chunks, gold). The md's own metadata table said synthetic_internal_policy; aligned file to contract, 16 Nov."
