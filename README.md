@@ -27,6 +27,11 @@ results, evaluation and ablation tables lands at the end of the build window.
   stays behind on the previous page.
 - Boxed paragraphs are demoted to text by a cell-length heuristic; a genuine
   small table with long cells could be misdemoted.
+- Footnote text interleaves into body paragraphs at page boundaries in DLD
+  and IRACP chunks; footnote markers appear mid-paragraph instead of apart.
+- Page-spanning tables are sliced per page by the parser; each slice is
+  under the 150-token small-table threshold, so logical tables ride along
+  in prose chunks and slices can split across chunk boundaries (KYC).
 
 ## Golden set
 
