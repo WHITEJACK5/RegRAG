@@ -82,3 +82,37 @@ end" rule is our own working agreement from D1 - neither ramayana document
 prescribes commit cadence.
 
 "Doc-id convention: the 5th corpus member is synthetic_policy_v1 everywhere (tests, chunks, gold). The md's own metadata table said synthetic_internal_policy; aligned file to contract, 16 Nov."
+
+## D6 — Chunker packing rules (2026-11-16)
+
+Token ≈ whitespace word. TARGET=400 / MAX=500 / MIN=100 tokens; 60-token
+(~15%) overlap only at split boundaries, never inside intact blocks. Tables
+≤150 tokens ride along with surrounding prose; larger tables stand alone
+whole. Sub-MIN blocks merge forward into the next block group; the document's
+final tail merges backward. Output: 236 chunks across 5 docs, deterministic,
+every block covered exactly once.
+
+## D6 — Merge-forward section labels lag (2026-11-16)
+
+Synthetic policy section 8 (~90 tokens) fell under the MIN floor and merged
+forward into section 9's chunk; the chunk `section` label takes the LAST
+section, so it reads "9." while carrying section 8's text. First live
+sighting of the merge-forward rule. Accepted: text is intact, only the label
+is imprecise — retrieval works on text, not labels.
+
+## D6 — Page-sliced tables never stand alone (2026-11-16)
+
+The parser slices page-spanning tables per page (KYC FPI tables: b120=108w,
+b121=77w, ...). Each slice is under the 150-token small-table threshold, so
+each correctly rides along in prose — with the consequence that a big
+logical table NEVER becomes a standalone chunk and its slices can split
+across chunk boundaries (b120+b121 shared c0099 only by luck). New nuance
+of the known page-spanning-table limitation. Lesson: inspect the unit, not
+the bundle — I mis-sized b120 from the chunk text instead of the block.
+
+## D6 — Synthetic effective_date corrected (2026-11-16)
+
+The md carried placeholder `effective_date: 2026-01-01`, contradicting its
+own metadata table. Hand-check caught it; corrected to 2026-11-10. The
+header is human-declared and loader-verified because a wrong version date
+poisons every inherited chunk silently.
