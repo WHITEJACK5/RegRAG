@@ -154,3 +154,25 @@ must mirror the real contract, or the code must not depend on unverified
 attributes; (2) the builder persisted index and ids BEFORE building
 metadata, so a metadata crash cost only metadata, not the compute -
 persist expensive results before anything that can fail.
+
+## D8 — BM25 tokenizer keeps identifiers whole (2026-11-19)
+
+BM25 sees only tokens, so the tokenizer is its entire interface to the
+corpus. Pattern: [a-z0-9]+(?:[.\-/][a-z0-9]+)\* over lowercased text, so
+"2.1.2", "21.04.158" and "2025-05-08" stay single tokens. Splitting on
+dots turns a section number into tokens present on every page - IDF then
+rewards nothing. Guarded by tests: identifier stays whole, case folds,
+id order matches the corpus loader. Library: rank_bm25 over bm25s - at
+236 chunks speed is irrelevant, and a ~100-line library is auditable.
+
+## D8 — RRF fuses ranks; demo shows why (2026-11-19)
+
+score(d) = sum 1/(60 + rank) over lists, k=60 per Cormack et al. 2009,
+ties broken by chunk_id for determinism. Query "para 2.1.2 term loan
+overdue 90 days": dense top-4 span 0.6161-0.6102 (0.006) - a near-tie it
+cannot resolve, gold c0002 at rank 3; BM25 spans 21.0-12.5 with c0002
+first. Fused: c0002 rises to rank 1 because BM25 rank 1 + dense rank 3
+(1/61+1/63) beats dense rank 1 + BM25 rank 5 (1/61+1/65). This is the
+ablation hypothesis in miniature; D10 measures it on the full golden set.
+The semantic query stayed stable at rank 1 - fusion did not damage what
+dense already did well.
