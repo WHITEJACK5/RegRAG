@@ -12,9 +12,11 @@ __pycache__/
 # Secrets — API keys live here, NEVER in git
 .env
 
-# Embedding index artifacts — rebuildable
+# Embedding index artifacts: data/index/dense.faiss is the deploy artifact
+# (43-min rebuild on CPU, D7 measurement). Scratch indexes stay out.
 .index/
 *.faiss
+!data/index/dense.faiss
 
 # OS noise
 .DS_Store
