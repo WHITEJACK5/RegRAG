@@ -2,10 +2,11 @@
 #  D1: requests (downloader), pytest (tests)
 #  D3-D6: pdfplumber (MIT) for parsing  [was missing from this list until D7]
 #  D7: sentence-transformers (Apache-2.0, BGE-M3 dense mode), faiss-cpu (MIT)
-#  D8: bm25s (BM25 over the same chunk ids)
+#  D8: rank_bm25 (BM25 over the same chunk ids)
 #  D12+: google-genai SDK, fastapi, uvicorn, pydantic, gradio
 requests
 pytest
 pdfplumber==0.11.10
 sentence-transformers==6.3.0
 faiss-cpu==1.16.0
+rank_bm25==0.2.2
