@@ -6,8 +6,7 @@ Citation-grounded question answering over Indian retail-lending regulation
 **Claim:** every answer carries page-level citations with a verbatim quote that
 code verifies; when the corpus does not support an answer, the system refuses.
 
-**Status:** early build (D2 of 20 · 9 Nov – 6 Dec 2026). Full README with
-results, evaluation and ablation tables lands at the end of the build window.
+**Status:** mid-build (D7 of 20 · 9 Nov – 6 Dec 2026). Corpus parsed (405 blocks) and chunked (236 chunks); dense BGE-M3 index built and smoke-tested. Full README with results, evaluation and ablation tables lands at the end of the build window.
 
 - Educational project. Not legal or financial advice.
 - Public RBI documents; PDFs are never committed to git (see `data/MANIFEST.json`
