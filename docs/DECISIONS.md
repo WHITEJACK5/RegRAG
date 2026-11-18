@@ -116,3 +116,41 @@ The md carried placeholder `effective_date: 2026-01-01`, contradicting its
 own metadata table. Hand-check caught it; corrected to 2026-11-10. The
 header is human-declared and loader-verified because a wrong version date
 poisons every inherited chunk silently.
+
+## D7 — Dense index design (2026-11-19)
+
+BGE-M3 (1024 dims), L2-normalised vectors into FAISS IndexFlatIP. With unit
+vectors the inner product IS cosine similarity, so no metric bookkeeping and
+no score rescaling anywhere downstream; scores land in [-1, 1]. Exact search
+on purpose: 236 vectors is ~1 MB, brute force costs microseconds, and an ANN
+index's silent recall loss would poison every ablation number in D10.
+FAISS returns row numbers, not chunk ids; data/index/dense_ids.json is the
+persisted row->id map and load_index() refuses a length mismatch - a
+desynchronised map returns confidently wrong chunks, the worst failure mode
+retrieval has. The model is injectable so tests exercise the pipeline
+against a deterministic fake encoder in milliseconds.
+
+## D7 — Measured embedding cost (2026-11-19)
+
+236 chunks, CPU-only, sentence-transformers 6.3.0: model load 8.17 s,
+embedding 2563.30 s (42:43, 0.09 chunks/s, ~10.9 s/chunk). An earlier
+identical run displayed 1953 s (32:33): 31% slower for the same work,
+consistent with thermal throttling on a long CPU-bound job - we record the
+slower instrumented number. Consequences: (1) re-embedding is an offline
+batch job, never interactive; (2) the deploy must ship the built index - a
+43-minute cold start is a dead demo; (3) query-side encoding of one short
+query is a different (much smaller) cost and must be measured separately
+for the p95 < 4 s budget.
+
+## D7 — Fake encoder lesson + persist-before-metadata (2026-11-19)
+
+First successful embedding run crashed after 42 minutes on
+`model.name_or_path`: that attribute belongs to the underlying transformers
+model, not the SentenceTransformer wrapper. The tests passed because the
+FakeEncoder exposed the attribute - a test double more accommodating than
+the real object hid the defect. Fix: label the model at load time and read
+injected models with getattr(..., default). Two habits banked: (1) a fake
+must mirror the real contract, or the code must not depend on unverified
+attributes; (2) the builder persisted index and ids BEFORE building
+metadata, so a metadata crash cost only metadata, not the compute -
+persist expensive results before anything that can fail.
