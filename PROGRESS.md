@@ -11,7 +11,7 @@ with sessions; the window end (Sun 6 Dec) does not.
 | D5 · Fri 13 Nov | table extraction to markdown with page provenance (time-box ~6 h) |✅DONE  |
 | D6 · Mon 16 Nov | chunker + automated chunk checks (no <100-token chunks; no split numbered clause) | ✅ DONE (236 chunks, 43 tests) |
 | D7 · Tue 17 Nov | dense index (BGE-M3); measure embedding time | ✅ DONE (236×1024; 42:43 CPU; 0.09 chunks/s) |
-| D8 · Wed 18 Nov | BM25 over the same chunk ids; RRF fusion | ☐ |
+| D8 · Wed 18 Nov | BM25 over the same chunk ids; RRF fusion | ✅ DONE (54 tests; fused demo verified) |
 | D9 · Thu 19 Nov | `evalkit`: Recall@k, MRR, nDCG@k, bootstrap CI, with tests | ☐ |
 | D10 · Fri 20 Nov | golden set to 40 questions; retrieval scoring; first ablation rows | ☐ |
 | D11 · Mon 23 Nov | cross-encoder reranker; measure CPU latency; keep-or-remove decision | ☐ |
