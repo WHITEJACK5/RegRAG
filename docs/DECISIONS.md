@@ -176,3 +176,15 @@ first. Fused: c0002 rises to rank 1 because BM25 rank 1 + dense rank 3
 ablation hypothesis in miniature; D10 measures it on the full golden set.
 The semantic query stayed stable at rank 1 - fusion did not damage what
 dense already did well.
+
+## D9 — Metric definitions and the empty-gold guard (2026-11-19)
+
+Recall@6 = fraction of gold chunks in the top 6 (k matches the prompt
+budget); MRR = reciprocal rank of the first gold hit; nDCG@6 = binary-
+relevance DCG divided by the ideal DCG. Multi-gold rows use the full gold
+denominator, so G007's 3 gold chunks make 2-of-3 recall 0.667, not 1.0.
+Unanswerables have empty gold_chunks by design and are scored by refusal,
+not recall; every metric raises ValueError on empty gold instead of
+returning 0, because a 0 would silently poison the average and hide a
+scorer that forgot to filter unanswerables. The guard is the instrument's
+contract: fail loudly at the boundary, not quietly in the table.
