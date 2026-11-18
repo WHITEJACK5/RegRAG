@@ -1,0 +1,8 @@
+{
+ "model": "BAAI/bge-m3",
+ "dim": 1024,
+ "num_chunks": 236,
+ "model_load_seconds": 8.17,
+ "embed_seconds": 2563.3,
+ "embed_chunks_per_second": 0.09
+}
