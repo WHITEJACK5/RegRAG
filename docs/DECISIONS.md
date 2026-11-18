@@ -188,3 +188,14 @@ not recall; every metric raises ValueError on empty gold instead of
 returning 0, because a 0 would silently poison the average and hide a
 scorer that forgot to filter unanswerables. The guard is the instrument's
 contract: fail loudly at the boundary, not quietly in the table.
+
+## D9 — Bootstrap CI is deterministic and intervals decide claims (2026-11-19)
+
+Percentile bootstrap: resample the per-question scores 1000 times, take
+the 2.5th/97.5th percentiles of the means, seed the RNG. A fixed seed
+makes two runs on the same data agree, so an ablation row is reproducible.
+With 40 questions a few points are noise; report the interval and do not
+claim an improvement the interval does not support. The toy example
+(gold ["a"], retrieved ["b","c","a"]) prints Recall@6 1.000, MRR 0.333,
+nDCG@6 0.500; the bootstrap CI on three values spans [0.000, 1.000],
+which is the honest picture of a tiny sample.
