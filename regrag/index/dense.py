@@ -24,25 +24,18 @@ import faiss
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
+from regrag.index.corpus import load_chunks
+
 ROOT = Path(__file__).resolve().parents[2]
-CHUNK_DIR = ROOT / "data" / "chunks"
 INDEX_DIR = ROOT / "data" / "index"
+
+
 MODEL_NAME = "BAAI/bge-m3"
 
 INDEX_FILE = INDEX_DIR / "dense.faiss"
 IDS_FILE = INDEX_DIR / "dense_ids.json"
 META_FILE = INDEX_DIR / "dense_meta.json"
 
-
-def load_chunks() -> list[dict]:
-    """All chunks across the corpus, in stable (doc_id, chunk_id) order."""
-    chunks: list[dict] = []
-    for path in sorted(CHUNK_DIR.glob("*_chunks.jsonl")):
-        for line in path.read_text(encoding="utf-8").splitlines():
-            if line.strip():
-                chunks.append(json.loads(line))
-    chunks.sort(key=lambda c: (c["doc_id"], c["chunk_id"]))
-    return chunks
 
 
 def build_index(model: SentenceTransformer | None = None) -> dict:
