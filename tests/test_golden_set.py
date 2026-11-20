@@ -6,6 +6,7 @@ So the golden set gets the same treatment as the parser output: invariants,
 enforced by code, independent of any console.
 """
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -42,7 +43,7 @@ def test_answerables_have_gold_answer_and_provenance():
         if r["type"] == "unanswerable":
             continue
         assert r["gold_answer"], f"{r['q_id']}: missing gold_answer"
-        assert r["gold_doc"] and r["gold_page"], \
+        assert r["gold_doc"] and r["gold_page"] is not None, \
             f"{r['q_id']}: missing gold_doc/gold_page"
 
 
@@ -121,4 +122,47 @@ def test_unanswerables_have_empty_gold_chunks():
         if r["type"] == "unanswerable":
             assert r.get("gold_chunks") == [], \
                 f"{r['q_id']}: unanswerable gold_chunks must be empty"
+
+
+def _chunks():
+    chunks = {}
+    for f in sorted((ROOT / "data" / "chunks").glob("*_chunks.jsonl")):
+        for line in f.read_text(encoding="utf-8").splitlines():
+            if line.strip():
+                c = json.loads(line)
+                chunks[c["chunk_id"]] = c
+    return chunks
+
+
+def _norm_section(s: str) -> str:
+    return re.sub(r"[^a-z0-9 ]", " ", s.lower()).strip()
+
+
+def test_gold_page_is_covered_by_gold_chunks():
+    chunks = _chunks()
+    for r in _rows():
+        if r["type"] == "unanswerable":
+            continue
+        pages = {p for cid in r["gold_chunks"] for p in chunks[cid]["pages"]}
+        assert r["gold_page"] in pages, (
+            f"{r['q_id']}: gold_page {r['gold_page']} not in {sorted(pages)}"
+        )
+
+
+def test_gold_section_matches_a_gold_chunk():
+    chunks = _chunks()
+    for r in _rows():
+        if r["type"] == "unanswerable":
+            continue
+        gs = _norm_section(r["gold_section"])
+        sections = [_norm_section(chunks[cid]["section"]) for cid in r["gold_chunks"]]
+        assert any(gs in s or s in gs for s in sections), (
+            f"{r['q_id']}: {r['gold_section']!r} does not match {sections}"
+        )
+
+
+def test_multihop_needs_two_chunks():
+    bad = [r["q_id"] for r in _rows()
+           if r["type"] == "multihop" and len(r["gold_chunks"]) < 2]
+    assert not bad, f"multihop rows with fewer than two gold chunks: {bad}"
                 
