@@ -41,8 +41,12 @@ relying on any item: re-read MANIFEST `status` + `effective_date`, re-run
 
 ## Golden set
 
-data/golden/golden_set_v1.jsonl holds the evaluation questions (target: 40 +
-5 friend-written). Rules: gold answers only from parsed blocks you have read;
-answerable entries carry doc/page/section provenance; unanswerables have null
-gold and a recorded silence search. Guarded by tests/test_golden_set.py.
+data/golden/golden_set_v1.jsonl holds the 40 evaluation questions
+(14 lookup / 10 multihop / 8 numeric / 8 unanswerable). Rules: gold answers
+only from parsed blocks you have read; answerable entries carry doc/page/
+section provenance; unanswerables have null gold and a recorded silence
+search. The spec's five blind questions were unavailable; the set is
+builder-written and the deviation is recorded in docs/DECISIONS.md.
+Guarded by tests/test_golden_set.py.
 Track coverage: python scripts/golden_inventory.py
+Retrieval ablation: docs/ABLATION.md

@@ -13,7 +13,7 @@ with sessions; the window end (Sun 6 Dec) does not.
 | D7 · Tue 17 Nov | dense index (BGE-M3); measure embedding time | ✅ DONE (236×1024; 42:43 CPU; 0.09 chunks/s) |
 | D8 · Wed 18 Nov | BM25 over the same chunk ids; RRF fusion | ✅ DONE (54 tests; fused demo verified) |
 | D9 · Thu 19 Nov | `evalkit`: Recall@k, MRR, nDCG@k, bootstrap CI, with tests | ✅ DONE (63 tests) |
-| D10 · Fri 20 Nov | golden set to 40 questions; retrieval scoring; first ablation rows | ☐ |
+| D10 · Fri 20 Nov | golden set to 40 questions; retrieval scoring; first ablation rows | ✅ DONE (40: 14/10/8/8; dense/BM25/hybrid scored; 69 tests) |
 | D11 · Mon 23 Nov | cross-encoder reranker; measure CPU latency; keep-or-remove decision | ☐ |
 | D12–D13 · Tue–Wed 24–25 Nov | generation: JSON contract, instruction hierarchy, quote-based citations | ☐ |
 | D14 · Thu 26 Nov | citation validator; one retry; fallback to refusal | ☐ |

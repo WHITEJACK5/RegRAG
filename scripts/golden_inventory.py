@@ -12,7 +12,7 @@ def main() -> int:
     rows = [json.loads(l) for l in GOLDEN.read_text(encoding="utf-8").splitlines() if l.strip()]
     counts = Counter(r["type"] for r in rows)
     print(f"Golden set - {GOLDEN.name}")
-    print(f"  total entries    {len(rows)} / 40 (+5 friend-written later)")
+    print(f"  total entries    {len(rows)} / 40")
     for t, target in TARGETS.items():
         print(f"  {t:<13} {counts.get(t, 0):>3} / {target:<3} {'#' * counts.get(t, 0)}")
     missing = sum(max(0, target - counts.get(k, 0)) for k, target in TARGETS.items())
