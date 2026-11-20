@@ -199,3 +199,46 @@ claim an improvement the interval does not support. The toy example
 (gold ["a"], retrieved ["b","c","a"]) prints Recall@6 1.000, MRR 0.333,
 nDCG@6 0.500; the bootstrap CI on three values spans [0.000, 1.000],
 which is the honest picture of a tiny sample.
+
+## D10 — Golden-set integrity: taxonomy, page 0, G008/G018 (2026-11-20)
+
+Type is a property of the evidence required, not of how many rules an answer
+mentions. `multihop` requires gold chunks from at least two distinct chunks; a
+single chunk holding a rule and its exception is `lookup` (G018 reclassified).
+G008 cited a page-28 table that duplicated c0034 under §5.9; it now cites
+c0027 (§5.4). Guards added: `test_multihop_needs_two_chunks`,
+`test_gold_page_is_covered_by_gold_chunks`, `test_gold_section_matches_a_gold_chunk`.
+The synthetic policy has no printed page, so `pages: [0]` is the sentinel; the
+presence check tests `is not None`, not truthiness. The earlier `if r["gold_page"]`
+form silently skipped page 0. Lesson: zero is data, not absence.
+
+## D10 — Aggregation lives in `regrag/eval/report.py` (2026-11-20)
+
+The scorer does I/O: load BGE-M3, encode 32 queries, call three retrievers.
+The report module does arithmetic: `score_rows`, `summarize`, `markdown`, all
+pure and tested against a four-question toy set with hand-computed means. A
+wrong mean is invisible in a plausible-looking table, and proving it right
+must not require a 2 GB encoder. Same fake-encoder principle as D7. The run
+persists `data/eval/retrieval_v1.json` and it is committed with the table, so
+the numbers can be recomputed without re-encoding.
+
+## D10 — First ablation: hybrid stays, BM25 is the bar (2026-11-20)
+
+On 32 answerable rows all systems reach 0.917–0.953 Recall@6. BM25 has the best
+overall MRR point estimate (0.840) against dense 0.673 and hybrid 0.839; hybrid
+is best on multihop MRR (0.900 vs 0.820 and 0.725). Dense finds lookup evidence
+(0.929 recall) but orders it poorly (0.604 MRR) — an ordering gap, which is what
+a cross-encoder addresses. Every pair of 95% intervals overlaps, so none of
+these differences is established at n=32. Decision: keep the hybrid pool for
+D11; the reranker must clear BM25's 0.840 overall MRR point estimate or be cut.
+
+## D10 — The 40 questions are builder-written (2026-11-20)
+
+The spec asks for five blind questions from a second person. No confirmed
+second person was available by D10, so all 40 rows were written by the builder
+while reading the corpus. Consequence: lexical overlap between question and
+regulation wording flatters BM25, and the ablation table must say so. The table
+in `docs/ABLATION.md` is labelled builder-written. Upgrade path: if a blind set
+exists before D19, swap it in while preserving the 14/10/8/8 mix, re-score, and
+amend the table, README and this log in a new commit. The set is never
+presented as blind.
