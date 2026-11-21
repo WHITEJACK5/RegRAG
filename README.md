@@ -6,7 +6,7 @@ Citation-grounded question answering over Indian retail-lending regulation
 **Claim:** every answer carries page-level citations with a verbatim quote that
 code verifies; when the corpus does not support an answer, the system refuses.
 
-**Status:** mid-build (D9 of 20 · 9 Nov – 6 Dec 2026). Corpus parsed (405 blocks) and chunked (236 chunks); dense BGE-M3 index built; BM25 + RRF fusion built; `evalkit` (Recall@6, MRR, nDCG@6, bootstrap CI) tested. Full README with results, evaluation and ablation tables lands at the end of the build window.
+**Status:** mid-build (D11 of 20 · 9 Nov – 6 Dec 2026). Corpus parsed (405 blocks) and chunked (236 chunks); dense BGE-M3 index built; BM25 + RRF fusion built; `evalkit` (Recall@6, MRR, nDCG@6, bootstrap CI, paired bootstrap) tested; 40-question golden set; reranker measured and removed (p95 68.3 s). Full README with results, evaluation and ablation tables lands at the end of the build window.
 
 - Educational project. Not legal or financial advice.
 - Public RBI documents; PDFs are never committed to git (see `data/MANIFEST.json`
@@ -43,3 +43,4 @@ builder-written and the deviation is recorded in docs/DECISIONS.md.
 Guarded by tests/test_golden_set.py.
 Track coverage: python scripts/golden_inventory.py
 Retrieval ablation: docs/ABLATION.md
+Reranker decision: measured at 68.3 s p95, removed from serving (docs/DECISIONS.md).

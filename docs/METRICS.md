@@ -1,8 +1,10 @@
 # Retrieval metrics — definitions and interpretation
 
-`regrag/eval/evalkit.py` implements four metrics; `tests/test_evalkit.py`
-pins the definitions with hand-computed cases. This note is the stable
-reference for D10's ablation table and the README's evaluation section.
+`regrag/eval/evalkit.py` implements four metrics and the paired bootstrap;
+`regrag/eval/report.py` adds the pool-ceiling diagnostic.
+`tests/test_evalkit.py` and `tests/test_eval_report.py` pin them with
+hand-computed cases. This note is the stable reference for the ablation
+tables and the README's evaluation section.
 
 ## Recall@k
 
@@ -51,6 +53,30 @@ Percentile bootstrap for the mean of per-question scores:
   data agree.
 - With 40 questions, a few points are noise. Report the interval; do not
   claim an ablation improvement when the intervals overlap.
+
+## Paired bootstrap difference
+
+Comparing two systems on the same questions is a paired design. Resample
+question indices once per iteration and apply the same indices to both
+systems; the interval is for `mean(a - b)`, not for either mean alone.
+
+- Separate intervals can overlap while the paired difference is real,
+  because the between-question variance cancels.
+- `paired_bootstrap_diff(a, b)` returns the 95% interval for `mean(a - b)`;
+  the caller reports the point estimate.
+- D11 used it for the reranker: gain +0.026, CI [-0.052, +0.110] — no
+  established improvement, which is one of the three reasons it was removed.
+
+## Pool ceiling
+
+`pool_ceiling(rows, pools, depth=30)` is the mean fraction of gold chunks
+present in the candidate pool a reranker receives. It is the upper bound on
+the reranker's Recall@6: reranking can only reorder what retrieval supplied.
+
+- D11's ceiling was 1.000, so recall could improve (0.943 -> 0.974) only by
+  moving gold from ranks 7–30 into the top 6.
+- If the ceiling were below 1.0, recall would be capped there regardless of
+  reranker quality.
 
 ## The empty-gold guard
 
