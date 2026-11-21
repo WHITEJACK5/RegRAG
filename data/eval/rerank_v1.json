@@ -1,0 +1,799 @@
+{
+ "k": 6,
+ "pool": 30,
+ "dense_model": "BAAI/bge-m3",
+ "rerank_model": "BAAI/bge-reranker-base",
+ "n_total": 40,
+ "n_answerable": 32,
+ "n_unanswerable": 8,
+ "pool_ceiling": {
+  "mean": 1.0,
+  "n": 32
+ },
+ "dense_load_seconds": 6.89,
+ "rerank_load_seconds": 6.55,
+ "latency": {
+  "total_seconds": 1621.34,
+  "mean_seconds": 50.667,
+  "p50_seconds": 47.144,
+  "p95_seconds": 68.284,
+  "max_seconds": 71.557,
+  "pairs_per_second": 0.59
+ },
+ "mrr_gain_rerank_minus_hybrid": {
+  "mean": 0.026,
+  "lo": -0.0521,
+  "hi": 0.1095,
+  "n_boot": 1000,
+  "seed": 0
+ },
+ "decision_rule": {
+  "min_mrr_gain": 0.03,
+  "max_p95_seconds": 1.0,
+  "ci_excludes_zero": false,
+  "keep": false
+ },
+ "rip": "reranker scores are logits, not RRF scores; rankings only",
+ "latency_seconds": [
+  62.534,
+  69.792,
+  39.948,
+  58.941,
+  46.119,
+  42.584,
+  47.033,
+  67.049,
+  56.45,
+  39.572,
+  53.127,
+  64.992,
+  50.184,
+  45.602,
+  41.644,
+  45.879,
+  45.259,
+  56.867,
+  47.255,
+  58.536,
+  42.79,
+  49.102,
+  44.854,
+  46.723,
+  52.536,
+  54.593,
+  51.905,
+  71.557,
+  41.251,
+  38.349,
+  43.799,
+  44.521
+ ],
+ "rankings": {
+  "G001": {
+   "hybrid": [
+    "rbi_digital_lending_2025_c0001",
+    "rbi_digital_lending_2025_c0004",
+    "rbi_digital_lending_2025_c0000",
+    "synthetic_policy_v1_c0004",
+    "rbi_kyc_2016_c0004",
+    "rbi_digital_lending_2025_c0003"
+   ],
+   "hybrid_rerank": [
+    "rbi_digital_lending_2025_c0001",
+    "rbi_digital_lending_2025_c0004",
+    "rbi_digital_lending_2025_c0002",
+    "rbi_kyc_2016_c0008",
+    "synthetic_policy_v1_c0004",
+    "rbi_digital_lending_2025_c0007"
+   ]
+  },
+  "G003": {
+   "hybrid": [
+    "synthetic_policy_v1_c0005",
+    "rbi_digital_lending_2025_c0009",
+    "synthetic_policy_v1_c0007",
+    "rbi_fair_practices_code_c0005",
+    "rbi_digital_lending_2025_c0014",
+    "rbi_iracp_2025_c0062"
+   ],
+   "hybrid_rerank": [
+    "synthetic_policy_v1_c0005",
+    "rbi_digital_lending_2025_c0009",
+    "rbi_digital_lending_2025_c0006",
+    "synthetic_policy_v1_c0006",
+    "rbi_fair_practices_code_c0005",
+    "rbi_fair_practices_code_c0004"
+   ]
+  },
+  "G004": {
+   "hybrid": [
+    "synthetic_policy_v1_c0004",
+    "rbi_digital_lending_2025_c0002",
+    "rbi_digital_lending_2025_c0003",
+    "rbi_digital_lending_2025_c0001",
+    "rbi_digital_lending_2025_c0004",
+    "rbi_digital_lending_2025_c0000"
+   ],
+   "hybrid_rerank": [
+    "rbi_digital_lending_2025_c0002",
+    "synthetic_policy_v1_c0004",
+    "rbi_digital_lending_2025_c0001",
+    "rbi_digital_lending_2025_c0004",
+    "rbi_digital_lending_2025_c0003",
+    "rbi_digital_lending_2025_c0000"
+   ]
+  },
+  "G006": {
+   "hybrid": [
+    "rbi_iracp_2025_c0002",
+    "rbi_iracp_2025_c0013",
+    "rbi_iracp_2025_c0010",
+    "synthetic_policy_v1_c0007",
+    "synthetic_policy_v1_c0008",
+    "rbi_iracp_2025_c0009"
+   ],
+   "hybrid_rerank": [
+    "synthetic_policy_v1_c0007",
+    "rbi_iracp_2025_c0010",
+    "rbi_iracp_2025_c0002",
+    "rbi_iracp_2025_c0052",
+    "rbi_iracp_2025_c0016",
+    "rbi_iracp_2025_c0042"
+   ]
+  },
+  "G007": {
+   "hybrid": [
+    "rbi_fair_practices_code_c0004",
+    "rbi_fair_practices_code_c0003",
+    "rbi_fair_practices_code_c0007",
+    "rbi_digital_lending_2025_c0009",
+    "synthetic_policy_v1_c0003",
+    "rbi_fair_practices_code_c0008"
+   ],
+   "hybrid_rerank": [
+    "rbi_fair_practices_code_c0004",
+    "rbi_digital_lending_2025_c0009",
+    "rbi_fair_practices_code_c0003",
+    "rbi_fair_practices_code_c0002",
+    "synthetic_policy_v1_c0008",
+    "rbi_fair_practices_code_c0007"
+   ]
+  },
+  "G008": {
+   "hybrid": [
+    "rbi_iracp_2025_c0034",
+    "rbi_iracp_2025_c0026",
+    "rbi_iracp_2025_c0027",
+    "rbi_iracp_2025_c0035",
+    "rbi_iracp_2025_c0037",
+    "rbi_iracp_2025_c0006"
+   ],
+   "hybrid_rerank": [
+    "rbi_iracp_2025_c0034",
+    "rbi_iracp_2025_c0027",
+    "rbi_iracp_2025_c0033",
+    "rbi_iracp_2025_c0026",
+    "rbi_iracp_2025_c0035",
+    "rbi_iracp_2025_c0076"
+   ]
+  },
+  "G009": {
+   "hybrid": [
+    "rbi_fair_practices_code_c0004",
+    "rbi_fair_practices_code_c0002",
+    "rbi_kyc_2016_c0031",
+    "rbi_fair_practices_code_c0008",
+    "rbi_iracp_2025_c0043",
+    "rbi_fair_practices_code_c0003"
+   ],
+   "hybrid_rerank": [
+    "rbi_fair_practices_code_c0004",
+    "rbi_digital_lending_2025_c0009",
+    "rbi_fair_practices_code_c0002",
+    "synthetic_policy_v1_c0006",
+    "rbi_fair_practices_code_c0008",
+    "synthetic_policy_v1_c0008"
+   ]
+  },
+  "G010": {
+   "hybrid": [
+    "rbi_iracp_2025_c0002",
+    "rbi_iracp_2025_c0043",
+    "rbi_iracp_2025_c0042",
+    "rbi_iracp_2025_c0008",
+    "rbi_kyc_2016_c0031",
+    "rbi_iracp_2025_c0010"
+   ],
+   "hybrid_rerank": [
+    "rbi_iracp_2025_c0002",
+    "rbi_iracp_2025_c0052",
+    "rbi_iracp_2025_c0041",
+    "rbi_iracp_2025_c0042",
+    "rbi_iracp_2025_c0008",
+    "rbi_iracp_2025_c0037"
+   ]
+  },
+  "G011": {
+   "hybrid": [
+    "rbi_iracp_2025_c0053",
+    "rbi_iracp_2025_c0052",
+    "rbi_iracp_2025_c0043",
+    "rbi_iracp_2025_c0045",
+    "rbi_iracp_2025_c0049",
+    "rbi_iracp_2025_c0022"
+   ],
+   "hybrid_rerank": [
+    "rbi_iracp_2025_c0052",
+    "rbi_iracp_2025_c0053",
+    "rbi_iracp_2025_c0022",
+    "rbi_iracp_2025_c0016",
+    "rbi_iracp_2025_c0043",
+    "rbi_iracp_2025_c0002"
+   ]
+  },
+  "G012": {
+   "hybrid": [
+    "rbi_digital_lending_2025_c0008",
+    "synthetic_policy_v1_c0004",
+    "rbi_digital_lending_2025_c0004",
+    "rbi_digital_lending_2025_c0025",
+    "rbi_kyc_2016_c0038",
+    "rbi_digital_lending_2025_c0006"
+   ],
+   "hybrid_rerank": [
+    "rbi_digital_lending_2025_c0008",
+    "synthetic_policy_v1_c0004",
+    "rbi_digital_lending_2025_c0004",
+    "synthetic_policy_v1_c0008",
+    "rbi_digital_lending_2025_c0010",
+    "rbi_digital_lending_2025_c0001"
+   ]
+  },
+  "G013": {
+   "hybrid": [
+    "rbi_fair_practices_code_c0006",
+    "rbi_fair_practices_code_c0003",
+    "rbi_fair_practices_code_c0007",
+    "rbi_fair_practices_code_c0004",
+    "rbi_fair_practices_code_c0001",
+    "rbi_fair_practices_code_c0008"
+   ],
+   "hybrid_rerank": [
+    "rbi_fair_practices_code_c0006",
+    "rbi_fair_practices_code_c0001",
+    "rbi_fair_practices_code_c0003",
+    "rbi_kyc_2016_c0031",
+    "rbi_fair_practices_code_c0004",
+    "rbi_iracp_2025_c0070"
+   ]
+  },
+  "G014": {
+   "hybrid": [
+    "rbi_digital_lending_2025_c0002",
+    "rbi_digital_lending_2025_c0025",
+    "rbi_digital_lending_2025_c0016",
+    "synthetic_policy_v1_c0004",
+    "rbi_digital_lending_2025_c0024",
+    "rbi_digital_lending_2025_c0022"
+   ],
+   "hybrid_rerank": [
+    "rbi_digital_lending_2025_c0002",
+    "rbi_digital_lending_2025_c0001",
+    "rbi_digital_lending_2025_c0019",
+    "rbi_digital_lending_2025_c0025",
+    "rbi_digital_lending_2025_c0018",
+    "rbi_digital_lending_2025_c0020"
+   ]
+  },
+  "G015": {
+   "hybrid": [
+    "rbi_digital_lending_2025_c0005",
+    "rbi_digital_lending_2025_c0000",
+    "rbi_digital_lending_2025_c0004",
+    "synthetic_policy_v1_c0004",
+    "rbi_digital_lending_2025_c0002",
+    "rbi_digital_lending_2025_c0001"
+   ],
+   "hybrid_rerank": [
+    "rbi_digital_lending_2025_c0005",
+    "rbi_digital_lending_2025_c0001",
+    "rbi_digital_lending_2025_c0000",
+    "rbi_digital_lending_2025_c0004",
+    "rbi_iracp_2025_c0053",
+    "rbi_digital_lending_2025_c0002"
+   ]
+  },
+  "G016": {
+   "hybrid": [
+    "rbi_fair_practices_code_c0005",
+    "rbi_kyc_2016_c0031",
+    "synthetic_policy_v1_c0005",
+    "rbi_digital_lending_2025_c0009",
+    "rbi_fair_practices_code_c0003",
+    "rbi_fair_practices_code_c0004"
+   ],
+   "hybrid_rerank": [
+    "rbi_fair_practices_code_c0005",
+    "rbi_fair_practices_code_c0004",
+    "rbi_fair_practices_code_c0001",
+    "rbi_kyc_2016_c0031",
+    "rbi_digital_lending_2025_c0009",
+    "rbi_fair_practices_code_c0002"
+   ]
+  },
+  "G017": {
+   "hybrid": [
+    "synthetic_policy_v1_c0008",
+    "rbi_fair_practices_code_c0005",
+    "rbi_fair_practices_code_c0002",
+    "synthetic_policy_v1_c0004",
+    "rbi_fair_practices_code_c0004",
+    "rbi_digital_lending_2025_c0016"
+   ],
+   "hybrid_rerank": [
+    "synthetic_policy_v1_c0004",
+    "rbi_digital_lending_2025_c0001",
+    "synthetic_policy_v1_c0008",
+    "rbi_fair_practices_code_c0002",
+    "rbi_fair_practices_code_c0001",
+    "rbi_digital_lending_2025_c0009"
+   ]
+  },
+  "G018": {
+   "hybrid": [
+    "synthetic_policy_v1_c0004",
+    "rbi_digital_lending_2025_c0007",
+    "rbi_kyc_2016_c0002",
+    "rbi_kyc_2016_c0004",
+    "rbi_digital_lending_2025_c0004",
+    "rbi_digital_lending_2025_c0006"
+   ],
+   "hybrid_rerank": [
+    "rbi_digital_lending_2025_c0007",
+    "synthetic_policy_v1_c0004",
+    "rbi_digital_lending_2025_c0001",
+    "rbi_digital_lending_2025_c0000",
+    "rbi_kyc_2016_c0011",
+    "rbi_digital_lending_2025_c0008"
+   ]
+  },
+  "G021": {
+   "hybrid": [
+    "rbi_kyc_2016_c0014",
+    "rbi_kyc_2016_c0055",
+    "rbi_kyc_2016_c0013",
+    "rbi_kyc_2016_c0016",
+    "rbi_kyc_2016_c0017",
+    "synthetic_policy_v1_c0007"
+   ],
+   "hybrid_rerank": [
+    "rbi_kyc_2016_c0014",
+    "rbi_kyc_2016_c0009",
+    "rbi_kyc_2016_c0019",
+    "rbi_kyc_2016_c0013",
+    "rbi_kyc_2016_c0055",
+    "rbi_kyc_2016_c0037"
+   ]
+  },
+  "G022": {
+   "hybrid": [
+    "rbi_kyc_2016_c0058",
+    "rbi_kyc_2016_c0066",
+    "rbi_digital_lending_2025_c0007",
+    "rbi_kyc_2016_c0008",
+    "rbi_iracp_2025_c0024",
+    "synthetic_policy_v1_c0003"
+   ],
+   "hybrid_rerank": [
+    "rbi_kyc_2016_c0058",
+    "rbi_kyc_2016_c0066",
+    "rbi_kyc_2016_c0008",
+    "rbi_kyc_2016_c0037",
+    "rbi_kyc_2016_c0020",
+    "rbi_kyc_2016_c0024"
+   ]
+  },
+  "G023": {
+   "hybrid": [
+    "rbi_kyc_2016_c0045",
+    "rbi_kyc_2016_c0036",
+    "rbi_kyc_2016_c0062",
+    "rbi_kyc_2016_c0044",
+    "rbi_kyc_2016_c0017",
+    "rbi_kyc_2016_c0063"
+   ],
+   "hybrid_rerank": [
+    "rbi_kyc_2016_c0045",
+    "rbi_kyc_2016_c0028",
+    "rbi_kyc_2016_c0055",
+    "rbi_kyc_2016_c0036",
+    "rbi_kyc_2016_c0023",
+    "rbi_kyc_2016_c0017"
+   ]
+  },
+  "G024": {
+   "hybrid": [
+    "rbi_kyc_2016_c0004",
+    "rbi_kyc_2016_c0016",
+    "rbi_kyc_2016_c0015",
+    "rbi_kyc_2016_c0041",
+    "rbi_kyc_2016_c0023",
+    "rbi_kyc_2016_c0038"
+   ],
+   "hybrid_rerank": [
+    "rbi_kyc_2016_c0016",
+    "rbi_kyc_2016_c0015",
+    "rbi_kyc_2016_c0013",
+    "rbi_kyc_2016_c0004",
+    "rbi_kyc_2016_c0056",
+    "rbi_kyc_2016_c0041"
+   ]
+  },
+  "G025": {
+   "hybrid": [
+    "rbi_kyc_2016_c0043",
+    "rbi_kyc_2016_c0020",
+    "rbi_kyc_2016_c0044",
+    "rbi_kyc_2016_c0017",
+    "rbi_kyc_2016_c0036",
+    "rbi_kyc_2016_c0042"
+   ],
+   "hybrid_rerank": [
+    "rbi_kyc_2016_c0043",
+    "rbi_kyc_2016_c0044",
+    "rbi_kyc_2016_c0036",
+    "rbi_kyc_2016_c0020",
+    "rbi_kyc_2016_c0060",
+    "rbi_kyc_2016_c0046"
+   ]
+  },
+  "G026": {
+   "hybrid": [
+    "rbi_kyc_2016_c0017",
+    "rbi_kyc_2016_c0019",
+    "rbi_kyc_2016_c0020",
+    "rbi_kyc_2016_c0058",
+    "rbi_kyc_2016_c0037",
+    "rbi_kyc_2016_c0014"
+   ],
+   "hybrid_rerank": [
+    "rbi_kyc_2016_c0019",
+    "rbi_kyc_2016_c0037",
+    "rbi_kyc_2016_c0044",
+    "rbi_kyc_2016_c0017",
+    "rbi_kyc_2016_c0041",
+    "rbi_kyc_2016_c0014"
+   ]
+  },
+  "G027": {
+   "hybrid": [
+    "synthetic_policy_v1_c0003",
+    "synthetic_policy_v1_c0005",
+    "rbi_digital_lending_2025_c0009",
+    "rbi_fair_practices_code_c0004",
+    "rbi_fair_practices_code_c0006",
+    "rbi_iracp_2025_c0024"
+   ],
+   "hybrid_rerank": [
+    "synthetic_policy_v1_c0003",
+    "synthetic_policy_v1_c0005",
+    "rbi_fair_practices_code_c0004",
+    "rbi_digital_lending_2025_c0009",
+    "synthetic_policy_v1_c0001",
+    "rbi_fair_practices_code_c0003"
+   ]
+  },
+  "G028": {
+   "hybrid": [
+    "synthetic_policy_v1_c0001",
+    "synthetic_policy_v1_c0008",
+    "synthetic_policy_v1_c0000",
+    "synthetic_policy_v1_c0005",
+    "synthetic_policy_v1_c0007",
+    "synthetic_policy_v1_c0002"
+   ],
+   "hybrid_rerank": [
+    "synthetic_policy_v1_c0001",
+    "synthetic_policy_v1_c0008",
+    "synthetic_policy_v1_c0005",
+    "synthetic_policy_v1_c0007",
+    "synthetic_policy_v1_c0002",
+    "synthetic_policy_v1_c0000"
+   ]
+  },
+  "G029": {
+   "hybrid": [
+    "synthetic_policy_v1_c0001",
+    "synthetic_policy_v1_c0003",
+    "rbi_kyc_2016_c0024",
+    "rbi_kyc_2016_c0058",
+    "synthetic_policy_v1_c0008",
+    "rbi_digital_lending_2025_c0025"
+   ],
+   "hybrid_rerank": [
+    "synthetic_policy_v1_c0001",
+    "rbi_digital_lending_2025_c0015",
+    "synthetic_policy_v1_c0003",
+    "rbi_kyc_2016_c0024",
+    "synthetic_policy_v1_c0005",
+    "synthetic_policy_v1_c0008"
+   ]
+  },
+  "G030": {
+   "hybrid": [
+    "synthetic_policy_v1_c0007",
+    "synthetic_policy_v1_c0001",
+    "synthetic_policy_v1_c0008",
+    "rbi_iracp_2025_c0002",
+    "rbi_iracp_2025_c0023",
+    "rbi_iracp_2025_c0024"
+   ],
+   "hybrid_rerank": [
+    "synthetic_policy_v1_c0007",
+    "rbi_iracp_2025_c0002",
+    "synthetic_policy_v1_c0001",
+    "rbi_iracp_2025_c0010",
+    "synthetic_policy_v1_c0008",
+    "rbi_iracp_2025_c0006"
+   ]
+  },
+  "G031": {
+   "hybrid": [
+    "synthetic_policy_v1_c0004",
+    "synthetic_policy_v1_c0001",
+    "rbi_digital_lending_2025_c0008",
+    "synthetic_policy_v1_c0008",
+    "synthetic_policy_v1_c0006",
+    "synthetic_policy_v1_c0000"
+   ],
+   "hybrid_rerank": [
+    "synthetic_policy_v1_c0008",
+    "synthetic_policy_v1_c0004",
+    "rbi_digital_lending_2025_c0008",
+    "synthetic_policy_v1_c0001",
+    "synthetic_policy_v1_c0006",
+    "synthetic_policy_v1_c0002"
+   ]
+  },
+  "G032": {
+   "hybrid": [
+    "rbi_iracp_2025_c0006",
+    "rbi_iracp_2025_c0025",
+    "rbi_iracp_2025_c0009",
+    "rbi_iracp_2025_c0023",
+    "rbi_iracp_2025_c0033",
+    "rbi_iracp_2025_c0008"
+   ],
+   "hybrid_rerank": [
+    "rbi_iracp_2025_c0006",
+    "rbi_iracp_2025_c0025",
+    "rbi_iracp_2025_c0052",
+    "rbi_iracp_2025_c0023",
+    "rbi_iracp_2025_c0002",
+    "rbi_iracp_2025_c0001"
+   ]
+  },
+  "G033": {
+   "hybrid": [
+    "rbi_iracp_2025_c0071",
+    "rbi_iracp_2025_c0042",
+    "rbi_iracp_2025_c0070",
+    "rbi_iracp_2025_c0043",
+    "rbi_iracp_2025_c0041",
+    "rbi_iracp_2025_c0008"
+   ],
+   "hybrid_rerank": [
+    "rbi_iracp_2025_c0070",
+    "rbi_iracp_2025_c0042",
+    "rbi_iracp_2025_c0041",
+    "rbi_iracp_2025_c0071",
+    "rbi_iracp_2025_c0043",
+    "rbi_iracp_2025_c0008"
+   ]
+  },
+  "G034": {
+   "hybrid": [
+    "rbi_digital_lending_2025_c0006",
+    "rbi_digital_lending_2025_c0009",
+    "rbi_kyc_2016_c0004",
+    "rbi_digital_lending_2025_c0004",
+    "rbi_digital_lending_2025_c0007",
+    "rbi_digital_lending_2025_c0003"
+   ],
+   "hybrid_rerank": [
+    "rbi_digital_lending_2025_c0006",
+    "rbi_digital_lending_2025_c0014",
+    "rbi_digital_lending_2025_c0003",
+    "rbi_digital_lending_2025_c0007",
+    "rbi_digital_lending_2025_c0002",
+    "rbi_digital_lending_2025_c0009"
+   ]
+  },
+  "G035": {
+   "hybrid": [
+    "rbi_digital_lending_2025_c0010",
+    "rbi_digital_lending_2025_c0011",
+    "rbi_digital_lending_2025_c0005",
+    "rbi_digital_lending_2025_c0006",
+    "rbi_digital_lending_2025_c0007",
+    "rbi_digital_lending_2025_c0014"
+   ],
+   "hybrid_rerank": [
+    "rbi_digital_lending_2025_c0010",
+    "rbi_digital_lending_2025_c0005",
+    "rbi_digital_lending_2025_c0011",
+    "rbi_digital_lending_2025_c0014",
+    "rbi_kyc_2016_c0025",
+    "rbi_digital_lending_2025_c0006"
+   ]
+  },
+  "G036": {
+   "hybrid": [
+    "rbi_fair_practices_code_c0007",
+    "rbi_fair_practices_code_c0008",
+    "rbi_fair_practices_code_c0006",
+    "rbi_fair_practices_code_c0002",
+    "rbi_fair_practices_code_c0004",
+    "rbi_fair_practices_code_c0001"
+   ],
+   "hybrid_rerank": [
+    "rbi_fair_practices_code_c0008",
+    "rbi_fair_practices_code_c0007",
+    "rbi_fair_practices_code_c0002",
+    "rbi_fair_practices_code_c0001",
+    "rbi_fair_practices_code_c0004",
+    "rbi_fair_practices_code_c0006"
+   ]
+  }
+ },
+ "results": {
+  "hybrid": {
+   "overall": {
+    "n": 32,
+    "recall": {
+     "mean": 0.9427083333333333,
+     "lo": 0.859375,
+     "hi": 1.0
+    },
+    "mrr": {
+     "mean": 0.8385416666666667,
+     "lo": 0.7447916666666667,
+     "hi": 0.921875
+    },
+    "ndcg": {
+     "mean": 0.846412412744536,
+     "lo": 0.7661488782593597,
+     "hi": 0.9182842566008882
+    }
+   },
+   "lookup": {
+    "n": 14,
+    "recall": {
+     "mean": 0.9285714285714286,
+     "lo": 0.7857142857142857,
+     "hi": 1.0
+    },
+    "mrr": {
+     "mean": 0.8214285714285714,
+     "lo": 0.6428571428571429,
+     "hi": 0.9642857142857143
+    },
+    "ndcg": {
+     "mean": 0.8494849471938838,
+     "lo": 0.6877321060778083,
+     "hi": 0.9736378395408184
+    }
+   },
+   "multihop": {
+    "n": 10,
+    "recall": {
+     "mean": 0.9166666666666666,
+     "lo": 0.8,
+     "hi": 1.0
+    },
+    "mrr": {
+     "mean": 0.9,
+     "lo": 0.8,
+     "hi": 1.0
+    },
+    "ndcg": {
+     "mean": 0.8430548439967867,
+     "lo": 0.7138518090609658,
+     "hi": 0.9438045524037314
+    }
+   },
+   "numeric": {
+    "n": 8,
+    "recall": {
+     "mean": 1.0,
+     "lo": 1.0,
+     "hi": 1.0
+    },
+    "mrr": {
+     "mean": 0.7916666666666666,
+     "lo": 0.5833333333333333,
+     "hi": 0.9375
+    },
+    "ndcg": {
+     "mean": 0.8452324383928644,
+     "lo": 0.6904648767857288,
+     "hi": 0.9538662191964322
+    }
+   }
+  },
+  "hybrid_rerank": {
+   "overall": {
+    "n": 32,
+    "recall": {
+     "mean": 0.9739583333333334,
+     "lo": 0.9375,
+     "hi": 1.0
+    },
+    "mrr": {
+     "mean": 0.8645833333333333,
+     "lo": 0.7604166666666667,
+     "hi": 0.9479166666666667
+    },
+    "ndcg": {
+     "mean": 0.8734589765814216,
+     "lo": 0.7955551218173104,
+     "hi": 0.9395661910368833
+    }
+   },
+   "lookup": {
+    "n": 14,
+    "recall": {
+     "mean": 1.0,
+     "lo": 1.0,
+     "hi": 1.0
+    },
+    "mrr": {
+     "mean": 0.9047619047619049,
+     "lo": 0.75,
+     "hi": 1.0
+    },
+    "ndcg": {
+     "mean": 0.9276526386199629,
+     "lo": 0.8093200763190701,
+     "hi": 1.0
+    }
+   },
+   "multihop": {
+    "n": 10,
+    "recall": {
+     "mean": 0.9166666666666666,
+     "lo": 0.8,
+     "hi": 1.0
+    },
+    "mrr": {
+     "mean": 0.8666666666666668,
+     "lo": 0.6833333333333333,
+     "hi": 1.0
+    },
+    "ndcg": {
+     "mean": 0.8201690802783098,
+     "lo": 0.667524345568999,
+     "hi": 0.9274339524783175
+    }
+   },
+   "numeric": {
+    "n": 8,
+    "recall": {
+     "mean": 1.0,
+     "lo": 1.0,
+     "hi": 1.0
+    },
+    "mrr": {
+     "mean": 0.7916666666666666,
+     "lo": 0.6041666666666666,
+     "hi": 0.9375
+    },
+    "ndcg": {
+     "mean": 0.8452324383928644,
+     "lo": 0.7068310959821609,
+     "hi": 0.9538662191964322
+    }
+   }
+  }
+ }
+}

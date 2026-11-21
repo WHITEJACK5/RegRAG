@@ -1,25 +1,28 @@
-# Retrieval ablation — dense vs BM25 vs RRF hybrid
+File content — replace all of docs\ABLATION.md
+
+# Retrieval ablation — dense vs BM25 vs RRF hybrid, and the reranker
 
 First retrieval numbers for RegRAG, produced on D10 (Fri 20 Nov 2026) over the
-40-question golden set. The 32 answerable rows are scored here; the 8
-unanswerables have no gold chunks and are scored by refusal in D16.
+40-question golden set. D11 (Sat 21 Nov 2026) adds the cross-encoder experiment.
+The 32 answerable rows are scored here; the 8 unanswerables have no gold chunks
+and are scored by refusal in D16.
 
 ## Setup
 
-| item      | value                                                    |
-| --------- | -------------------------------------------------------- |
-| corpus    | 236 chunks, 5 documents (4 RBI + 1 synthetic)            |
-| dense     | BGE-M3, 1024-d, L2-normalised, FAISS `IndexFlatIP`       |
-| sparse    | `BM25Okapi`, identifier-preserving tokenizer             |
-| fusion    | RRF, k=60, rank-only, ties by `chunk_id`                 |
-| pool      | top 30 per retriever before fusion; final cut to 6       |
-| metrics   | Recall@6, MRR, nDCG@6 (binary relevance)                 |
-| intervals | percentile bootstrap, 1000 resamples, seed 0, 95%        |
-| artifact  | `data/eval/retrieval_v1.json`                            |
-| run       | `python scripts/score_retrieval.py`                      |
-| timing    | 6.8 s model load, 9.7 s for 32 queries (CPU, warm cache) |
+| item      | value                                                                      |
+| --------- | -------------------------------------------------------------------------- |
+| corpus    | 236 chunks, 5 documents (4 RBI + 1 synthetic)                              |
+| dense     | BGE-M3, 1024-d, L2-normalised, FAISS `IndexFlatIP`                         |
+| sparse    | `BM25Okapi`, identifier-preserving tokenizer                               |
+| fusion    | RRF, k=60, rank-only, ties by `chunk_id`                                   |
+| reranker  | `BAAI/bge-reranker-base`, query-chunk pairs, 512 tokens, CPU               |
+| pool      | top 30 per retriever before fusion; the reranker consumes the fused top 30 |
+| metrics   | Recall@6, MRR, nDCG@6 (binary relevance)                                   |
+| intervals | percentile bootstrap, 1000 resamples, seed 0, 95%                          |
+| artifacts | `data/eval/retrieval_v1.json`, `data/eval/rerank_v1.json`                  |
+| runs      | `python scripts/score_retrieval.py`, `python scripts/score_rerank.py`      |
 
-## Results
+## Results — retrievers (D10)
 
 | slice    | system | n   | Recall@6             | MRR                  | nDCG@6               |
 | -------- | ------ | --- | -------------------- | -------------------- | -------------------- |
@@ -36,7 +39,7 @@ unanswerables have no gold chunks and are scored by refusal in D16.
 | numeric  | bm25   | 8   | 1.000 [1.000, 1.000] | 0.833 [0.667, 1.000] | 0.875 [0.750, 1.000] |
 | numeric  | hybrid | 8   | 1.000 [1.000, 1.000] | 0.792 [0.583, 0.938] | 0.845 [0.690, 0.954] |
 
-## What the table says
+## What the D10 table says
 
 1. **Recall@6 is high for every system** (0.917–0.953 overall), so at this
    depth the comparison is mostly about ordering, not about finding evidence.
@@ -50,9 +53,44 @@ unanswerables have no gold chunks and are scored by refusal in D16.
 4. **The numeric slice separates on ranking, not recall.** All three find 8/8
    gold chunks; MRR is 0.833 BM25 / 0.792 hybrid / 0.729 dense. That is
    consistent with the D8 tokenizer keeping section numbers and amounts whole.
-5. **Dense's defect is ordering.** The lookup gap is the clearest target for
-   the D11 cross-encoder, which re-reads query–chunk pairs instead of
-   comparing two independent embeddings.
+5. **Dense's defect is ordering.** The lookup gap was the target for the D11
+   cross-encoder. D11 improved lookup sharply but regressed multihop and lost
+   on latency; see below.
+
+## Results — reranker (D11)
+
+| slice    | system        | n   | Recall@6             | MRR                  | nDCG@6               |
+| -------- | ------------- | --- | -------------------- | -------------------- | -------------------- |
+| overall  | hybrid        | 32  | 0.943 [0.859, 1.000] | 0.839 [0.745, 0.922] | 0.846 [0.766, 0.918] |
+| overall  | hybrid_rerank | 32  | 0.974 [0.938, 1.000] | 0.865 [0.760, 0.948] | 0.873 [0.796, 0.940] |
+| lookup   | hybrid        | 14  | 0.929 [0.786, 1.000] | 0.821 [0.643, 0.964] | 0.849 [0.688, 0.974] |
+| lookup   | hybrid_rerank | 14  | 1.000 [1.000, 1.000] | 0.905 [0.750, 1.000] | 0.928 [0.809, 1.000] |
+| multihop | hybrid        | 10  | 0.917 [0.800, 1.000] | 0.900 [0.800, 1.000] | 0.843 [0.714, 0.944] |
+| multihop | hybrid_rerank | 10  | 0.917 [0.800, 1.000] | 0.867 [0.683, 1.000] | 0.820 [0.668, 0.927] |
+| numeric  | hybrid        | 8   | 1.000 [1.000, 1.000] | 0.792 [0.583, 0.938] | 0.845 [0.690, 0.954] |
+| numeric  | hybrid_rerank | 8   | 1.000 [1.000, 1.000] | 0.792 [0.604, 0.938] | 0.845 [0.707, 0.954] |
+
+Latency over 32 queries: mean **50.7 s**, p50 47.1 s, p95 **68.3 s**, max
+71.6 s, **0.59 pairs/s**, 1621 s total; model load 6.6 s from cache. Pool
+ceiling (Recall@30 of the hybrid pool): **1.000**. Paired MRR gain
+(rerank − hybrid): **+0.026**, 95% CI **[-0.052, +0.110]**.
+
+## What the reranker table says
+
+1. **Lookup is where it works.** Recall 0.929 → 1.000; MRR 0.821 → 0.905;
+   nDCG 0.849 → 0.928. With one gold chunk per question, a pair scorer can
+   promote the right chunk from rank 3–6 to rank 1.
+2. **Multihop regresses.** MRR 0.900 → 0.867; nDCG 0.843 → 0.820; recall is
+   unchanged at 0.917. A cross-encoder scores each chunk against the query
+   independently, so it cannot reward two chunks that are jointly sufficient.
+   Promoting one can push its partner out of the top 6.
+3. **Numeric is unchanged.** Both systems already have 1.000 recall; MRR stays
+   0.792 and nDCG 0.845. The reranker did not disturb an already-correct order.
+4. **The overall gain is inside the noise.** +0.026 MRR is below the
+   pre-registered 0.03 bar, and the paired 95% CI includes zero. The lookup
+   gain is real in direction but diluted by the multihop regression.
+5. **The cost is decisive.** p95 68.3 s/query is ~68× the 1.0 s budget. Even a
+   perfect quality gain would not justify it on this CPU.
 
 ## Caveats — read before quoting any number
 
@@ -62,11 +100,10 @@ unanswerables have no gold chunks and are scored by refusal in D16.
   therefore overlaps regulation wording, which flatters lexical retrieval
   (BM25) relative to dense. The set is labelled builder-written in
   `docs/DECISIONS.md`.
-- **No pairwise difference is separated by these intervals.** Each system's
-  interval comes from its own bootstrap; every pair of intervals in the table
-  overlaps. The point estimates are directional, not proof. A paired bootstrap
-  over the same questions is the correct test for "A beats B" and is not yet
-  implemented.
+- **D10 intervals are separate; D11 is paired.** Overlapping separate intervals
+  do not mean "no difference": they include between-question variance that
+  cancels in a paired design. The D11 comparison uses `paired_bootstrap_diff`
+  over the same 32 questions; that is the correct test for a difference.
 - **n = 32, and n = 8 on the numeric slice.** Intervals are wide by
   construction.
 - **`1.000 [1.000, 1.000]` is degenerate, not certain.** The percentile
@@ -75,65 +112,25 @@ unanswerables have no gold chunks and are scored by refusal in D16.
 - **Gold chunks are single-chunk annotations.** A neighbouring split chunk can
   repeat the same sentence and is still scored as a miss. This depresses MRR
   more than recall.
+- **Raw chunk text.** The reranker sees PDF footer artifacts and 512-token
+  truncation. Cleaning the text could change the ordering, but would not change
+  the latency verdict.
+- **One model, one hardware profile.** `bge-reranker-base` on this 12-thread
+  CPU. A GPU or a much smaller model could change the trade-off; the decision
+  is for this deployment target, not a universal claim.
 
 ## Decision
 
-Keep the hybrid pool for D11. The reranker survives only if the full pipeline
-clears BM25's 0.840 overall MRR point estimate; if the gain sits inside the
-noise, cut the reranker (first on the cut line) and report the BM25 baseline
-with the same honesty. Blind questions, if they arrive before D19, are swapped
-in while preserving the 14/10/8/8 mix, and this table is amended in a new
-commit.
+Keep hybrid. Remove the reranker from the serving path: three independent
+failures of the pre-registered rule (gain < 0.03, paired CI includes zero,
+p95 68.3 s > 1.0 s). The code and artifact stay in the repo as an experiment;
+D12+ uses hybrid top-6 without reranking. If the deployment hardware changes
+enough to cut latency by ~68×, re-run `score_rerank.py` and re-apply the same
+rule.
 
 ## Reproduce
 
 ```powershell
 python scripts\score_retrieval.py
+python scripts\score_rerank.py
 ```
-## File content — append to the end of `docs\DECISIONS.md`
-
-One blank line after D9's last line, then:
-
-```markdown
-## D10 — Golden-set integrity: taxonomy, page 0, G008/G018 (2026-11-20)
-
-Type is a property of the evidence required, not of how many rules an answer
-mentions. `multihop` requires gold chunks from at least two distinct chunks; a
-single chunk holding a rule and its exception is `lookup` (G018 reclassified).
-G008 cited a page-28 table that duplicated c0034 under §5.9; it now cites
-c0027 (§5.4). Guards added: `test_multihop_needs_two_chunks`,
-`test_gold_page_is_covered_by_gold_chunks`, `test_gold_section_matches_a_gold_chunk`.
-The synthetic policy has no printed page, so `pages: [0]` is the sentinel; the
-presence check tests `is not None`, not truthiness. The earlier `if r["gold_page"]`
-form silently skipped page 0. Lesson: zero is data, not absence.
-
-## D10 — Aggregation lives in `regrag/eval/report.py` (2026-11-20)
-
-The scorer does I/O: load BGE-M3, encode 32 queries, call three retrievers.
-The report module does arithmetic: `score_rows`, `summarize`, `markdown`, all
-pure and tested against a four-question toy set with hand-computed means. A
-wrong mean is invisible in a plausible-looking table, and proving it right
-must not require a 2 GB encoder. Same fake-encoder principle as D7. The run
-persists `data/eval/retrieval_v1.json` and it is committed with the table, so
-the numbers can be recomputed without re-encoding.
-
-## D10 — First ablation: hybrid stays, BM25 is the bar (2026-11-20)
-
-On 32 answerable rows all systems reach 0.917–0.953 Recall@6. BM25 has the best
-overall MRR point estimate (0.840) against dense 0.673 and hybrid 0.839; hybrid
-is best on multihop MRR (0.900 vs 0.820 and 0.725). Dense finds lookup evidence
-(0.929 recall) but orders it poorly (0.604 MRR) — an ordering gap, which is what
-a cross-encoder addresses. Every pair of 95% intervals overlaps, so none of
-these differences is established at n=32. Decision: keep the hybrid pool for
-D11; the reranker must clear BM25's 0.840 overall MRR point estimate or be cut.
-
-## D10 — The 40 questions are builder-written (2026-11-20)
-
-The spec asks for five blind questions from a second person. No confirmed
-second person was available by D10, so all 40 rows were written by the builder
-while reading the corpus. Consequence: lexical overlap between question and
-regulation wording flatters BM25, and the ablation table must say so. The table
-in `docs/ABLATION.md` is labelled builder-written. Upgrade path: if a blind set
-exists before D19, swap it in while preserving the 14/10/8/8 mix, re-score, and
-amend the table, README and this log in a new commit. The set is never
-presented as blind.
