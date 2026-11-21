@@ -242,3 +242,27 @@ in `docs/ABLATION.md` is labelled builder-written. Upgrade path: if a blind set
 exists before D19, swap it in while preserving the 14/10/8/8 mix, re-score, and
 amend the table, README and this log in a new commit. The set is never
 presented as blind.
+
+## D11 — Reranker measured, rejected, removed (2026-11-21)
+
+Pre-registered keep rule: overall MRR gain >= 0.03, paired 95% CI excludes 0,
+p95 rerank latency <= 1.0 s/query. `BAAI/bge-reranker-base` over the hybrid
+top-30: MRR 0.839 -> 0.865 (+0.026), paired CI [-0.052, +0.110]; lookup
+0.821 -> 0.905, multihop 0.900 -> 0.867, numeric unchanged; pool ceiling @30
+= 1.000. Latency: mean 50.7 s, p95 68.3 s, 0.59 pairs/s; 1621 s for 32
+queries; model load 6.6 s from cache. Three independent failures -> removed
+from the serving path. Code stays in `regrag/retrieve/rerank.py` as an
+experiment, not wired into generation. Mechanism for the multihop regression:
+a cross-encoder scores each chunk against the query independently, so it
+cannot reward two chunks that are jointly sufficient; promoting one can push
+its partner out of the top 6.
+
+## D11 — Paired bootstrap is the A/B test (2026-11-21)
+
+D10 compared systems with separate intervals; overlapping intervals do not
+mean "no difference" because they include between-question variance that
+cancels in a paired design. `paired_bootstrap_diff` resamples question
+indices in lockstep and returns a CI for mean(a - b). D11 used it for the
+reranker gain. Future A/B claims use the paired interval; the D10 table was
+not recomputed because its decision (hybrid stays) did not rest on a pairwise
+claim.
