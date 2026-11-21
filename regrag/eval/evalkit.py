@@ -64,3 +64,29 @@ def bootstrap_ci(values: Sequence[float], n_boot: int = 1000,
                       for _ in range(n_boot)])
     lo, hi = np.quantile(means, [alpha / 2, 1 - alpha / 2])
     return float(lo), float(hi)
+
+def paired_bootstrap_diff(
+    a: Sequence[float],
+    b: Sequence[float],
+    n_boot: int = 1000,
+    alpha: float = 0.05,
+    seed: int = 0,
+) -> tuple[float, float]:
+    """Percentile CI for mean(a - b), resampling question indices in lockstep.
+
+    Separate intervals can overlap while the paired difference is real. The
+    same resampled indices are applied to both systems, which removes the
+    between-question variance that makes unpaired intervals so wide.
+    """
+    a_arr = np.asarray(list(a), dtype=float)
+    b_arr = np.asarray(list(b), dtype=float)
+    if a_arr.size != b_arr.size:
+        raise ValueError("paired bootstrap needs equal-length samples")
+    if a_arr.size == 0:
+        raise ValueError("paired bootstrap needs at least one pair")
+    diff = a_arr - b_arr
+    rng = np.random.default_rng(seed)
+    idx = rng.integers(0, diff.size, size=(n_boot, diff.size))
+    means = diff[idx].mean(axis=1)
+    lo, hi = np.quantile(means, [alpha / 2, 1 - alpha / 2])
+    return float(lo), float(hi)
