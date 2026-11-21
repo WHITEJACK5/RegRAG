@@ -51,3 +51,25 @@ def test_bootstrap_single_value():
 def test_bootstrap_rejects_empty():
     with pytest.raises(ValueError):
         evalkit.bootstrap_ci([])
+
+
+def test_paired_bootstrap_detects_a_consistent_gain():
+    lo, hi = evalkit.paired_bootstrap_diff([1.0] * 10, [0.0] * 10, n_boot=500, seed=7)
+    assert (lo, hi) == (1.0, 1.0)
+    assert (lo, hi) == evalkit.paired_bootstrap_diff(
+        [1.0] * 10, [0.0] * 10, n_boot=500, seed=7
+    )
+
+
+def test_paired_bootstrap_null_includes_zero():
+    a = [1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0]
+    b = [0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0]
+    lo, hi = evalkit.paired_bootstrap_diff(a, b, n_boot=1000, seed=0)
+    assert lo <= 0.0 <= hi
+
+
+def test_paired_bootstrap_rejects_mismatch_and_empty():
+    with pytest.raises(ValueError):
+        evalkit.paired_bootstrap_diff([1.0], [1.0, 0.0])
+    with pytest.raises(ValueError):
+        evalkit.paired_bootstrap_diff([], [])
