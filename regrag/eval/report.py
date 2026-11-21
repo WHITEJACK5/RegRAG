@@ -59,7 +59,27 @@ def summarize(
     k: int = 6,
 ) -> dict:
     """One results dict per system, keyed by slice."""
+
+
     return {s: score_rows(rows, rankings, s, k) for s in systems}
+
+
+def pool_ceiling(
+    rows: Sequence[Mapping],
+    pools: Mapping[str, Sequence[str]],
+    depth: int = 30,
+) -> dict:
+    """Mean fraction of gold chunks present in the candidate pool.
+
+    This is the upper bound on any reranker's Recall@k: it can only reorder
+    what retrieval already supplied. If the ceiling is 1.0, reranking can
+    improve MRR and nDCG but cannot improve recall.
+    """
+    values = [
+        recall_at_k(pools[r["q_id"]], r["gold_chunks"], depth)
+        for r in rows
+    ]
+    return {"mean": sum(values) / len(values), "n": len(values)}
 
 
 def _cell(metric: dict) -> str:
@@ -67,6 +87,9 @@ def _cell(metric: dict) -> str:
 
 
 def markdown(results: Mapping[str, Mapping[str, dict]], k: int = 6) -> str:
+
+
+    
     """A table whose rows are (slice, system) pairs - readable in a PR."""
     lines = [
         f"| slice | system | n | Recall@{k} | MRR | nDCG@{k} |",

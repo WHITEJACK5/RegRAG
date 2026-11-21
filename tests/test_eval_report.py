@@ -1,7 +1,8 @@
 """Contract tests for the ablation summariser: no model, no index."""
 import pytest
 
-from regrag.eval.report import markdown, summarize
+from regrag.eval.report import markdown, pool_ceiling, summarize
+
 
 ROWS = [
     {"q_id": "Q1", "type": "lookup", "gold_chunks": ["a"]},
@@ -44,3 +45,20 @@ def test_interval_brackets_each_mean_and_markdown_has_rows():
     table = markdown(res, k=6)
     assert "| overall | dense | 4 |" in table
     assert "| multihop | hybrid | 1 |" in table
+
+
+POOLS = {
+    "Q1": ["x", "a"],
+    "Q2": ["b"],
+    "Q3": ["c", "d"],
+    "Q4": [],
+}
+
+
+def test_pool_ceiling_is_the_rerank_upper_bound():
+    deep = pool_ceiling(ROWS, POOLS, depth=30)
+    assert deep["n"] == 4
+    assert deep["mean"] == pytest.approx(0.75)
+    shallow = pool_ceiling(ROWS, POOLS, depth=1)
+    # Q3 has two gold chunks, so depth 1 contributes 1/2, not 1.0.
+    assert shallow["mean"] == pytest.approx(0.375)
